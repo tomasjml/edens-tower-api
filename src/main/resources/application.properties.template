@@ -1,7 +1,7 @@
 # Database properties
 spring.datasource.url = jdbc:mysql://localhost:3306/edens_tower_api?useSSL=false
-spring.datasource.username=tomas
-spring.datasource.password=ml272718
+spring.datasource.username=
+spring.datasource.password=
 
 ## Hibernate Properties
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
@@ -11,6 +11,6 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
 spring.jpa.hibernate.ddl-auto=update
 
 # Loggin SQL
-spring.jpa.show-sql=true 
+spring.jpa.show-sql=true
 logging.level.org.hibernate.SQL=DEBUG
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE

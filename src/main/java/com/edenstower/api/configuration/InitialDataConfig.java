@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Date;
 
 @Configuration
-public class UserConfig {
+public class InitialDataConfig {
     @Bean
     CommandLineRunner commandLineRunner(UserService userService, UserRepository userRepository){
         return args -> {

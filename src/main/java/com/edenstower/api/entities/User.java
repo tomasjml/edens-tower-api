@@ -1,8 +1,6 @@
 package com.edenstower.api.entities;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -13,6 +11,10 @@ import java.util.Date;
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 public class User {
+    public enum Rol {
+        Admin, Cliente
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String username;
@@ -28,4 +30,8 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "ENUM('Admin', 'Cliente')")
+    private Rol rol;
 }

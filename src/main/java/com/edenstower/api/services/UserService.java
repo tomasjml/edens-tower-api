@@ -8,6 +8,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -15,11 +17,17 @@ public class UserService {
     @Autowired
     private Environment env;
 
-    public void addUser(User user){
+    public User addUser(User user){
         String keyProperty = env.getProperty("key");
         Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder(keyProperty, 10000, 128);
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        userRepository.save(user);
+        user.setCreatedAt(new Date());
+        user.setLastLoggedAt(new Date());
+        return userRepository.save(user);
+    }
+
+    public User editUser(User user){
+        return userRepository.save(user);
     }
 }

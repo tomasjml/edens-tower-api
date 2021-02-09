@@ -26,4 +26,8 @@ public class UserService {
         user.setLastLoggedAt(new Date());
         return userRepository.save(user);
     }
+
+    public User editUser(User user){
+        return userRepository.save(user);
+    }
 }

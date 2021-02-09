@@ -16,3 +16,5 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 logging.level.org.hibernate.SQL=DEBUG
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+spring.jackson.time-zone=GMT-4

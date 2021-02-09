@@ -1,13 +1,10 @@
 package com.edenstower.api.configuration;
 
 import com.edenstower.api.entities.User;
-import com.edenstower.api.repositories.UserRepository;
 import com.edenstower.api.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 
 import java.util.Date;
 
@@ -23,6 +20,15 @@ public class UserConfig {
                     new Date(),
                     "adminpowers",
                     User.Rol.Admin
+            );
+            userService.addUser(user);
+            user = new User(
+                    "client",
+                    "client",
+                    "client@edenstower.com",
+                    new Date(),
+                    "clientpowers",
+                    User.Rol.Client
             );
             userService.addUser(user);
         };

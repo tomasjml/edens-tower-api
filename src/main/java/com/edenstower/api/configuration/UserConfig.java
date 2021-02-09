@@ -19,7 +19,8 @@ public class UserConfig {
                     "admin@edenstower.com",
                     new Date(),
                     "adminpowers",
-                    User.Rol.Admin
+                    User.Rol.Admin,
+                    new Date()
             );
             userService.addUser(user);
             user = new User(
@@ -28,7 +29,8 @@ public class UserConfig {
                     "client@edenstower.com",
                     new Date(),
                     "clientpowers",
-                    User.Rol.Client
+                    User.Rol.Client,
+                    new Date()
             );
             userService.addUser(user);
         };

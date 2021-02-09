@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -44,4 +45,7 @@ public class User {
     @Column(columnDefinition = "ENUM('Admin', 'Client')")
     @NotNull
     private Rol rol;
+
+    @Column(name = "last_logged_at")
+    private Date lastLoggedAt;
 }

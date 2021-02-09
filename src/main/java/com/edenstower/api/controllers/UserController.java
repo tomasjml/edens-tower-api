@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -63,11 +65,19 @@ public class UserController {
         }
     }
 
-//    @PutMapping("/user")
-//    public ResponseEntity<User> putUser(@RequestParam String username, @RequestParam String firstName,
-//                         @RequestParam String lastName, @RequestParam String email,
-//                         @RequestParam String rol) {
-//
-//    }
+    @DeleteMapping("/user")
+    public Map<String, String> deleteUser(@RequestParam String username) {
+        Map<String, String> response = new HashMap<>();
+        if (!userRepository.existsByUsername(username)) {
+            response.put("deleted", "false");
+            response.put("message", "User " + username  + " not found");
+        } else {
+            User oldUser = userRepository.findByUsername(username);
+            userRepository.delete(oldUser);
+            response.put("deleted", "true");
+            response.put("message", "User " + username  + " has been deleted");
+        }
+        return response;
+    }
 
 }

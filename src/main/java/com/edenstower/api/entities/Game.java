@@ -1,5 +1,7 @@
 package com.edenstower.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +18,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Game {
+
+//    public enum SaveSlot{
+//        One, Two, Three, Four
+//    }
+
     public enum Difficulty {
         Easy, Normal, Hard, Hell
     }
@@ -35,8 +42,13 @@ public class Game {
     @Column(name = "saved_at", nullable = false)
     private Date savedAt;
 
+//    @Enumerated(EnumType.ORDINAL)
+//    @Column(name="save_slot", columnDefinition = "ENUM('One','Two','Three','Four')", nullable = false)
+//    @NotNull
+//    private SaveSlot saveSlot;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "difficulty", columnDefinition = "ENUM('EASY', 'NORMAL', 'HARD', 'HELL')", nullable = false)
+    @Column(name = "difficulty", columnDefinition = "ENUM('Easy', 'Normal', 'Hard', 'Hell')", nullable = false)
     @NotNull
     private Difficulty difficulty;
 
@@ -104,4 +116,76 @@ public class Game {
     @Column(name = "total_deaths", columnDefinition = "integer default 0")
     @NotNull
     private long totalDeaths;
+
+    public Game(User player, Date createdAt, Date savedAt, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+        this.player = player;
+        this.createdAt = createdAt;
+        this.savedAt = savedAt;
+        this.difficulty = difficulty;
+        this.gameTimeInSeconds = gameTimeInSeconds;
+        this.fullScreen = fullScreen;
+        this.autoSave = autoSave;
+        this.gammaLvl = gammaLvl;
+        this.sfxEnabled = sfxEnabled;
+        this.sfxLvl = sfxLvl;
+        this.musicEnabled = musicEnabled;
+        this.musicLvl = musicLvl;
+        this.strength = strength;
+        this.vitality = vitality;
+        this.defense = defense;
+        this.speed = speed;
+        this.luck = luck;
+        this.totalKills = totalKills;
+        this.totalDeaths = totalDeaths;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "id=" + id +
+                ", player=" + player.getUsername() +
+                ", createdAt=" + createdAt +
+                ", savedAt=" + savedAt +
+                ", difficulty=" + difficulty +
+                ", gameTimeInSeconds=" + gameTimeInSeconds +
+                ", fullScreen=" + fullScreen +
+                ", autoSave=" + autoSave +
+                ", gammaLvl=" + gammaLvl +
+                ", sfxEnabled=" + sfxEnabled +
+                ", sfxLvl=" + sfxLvl +
+                ", musicEnabled=" + musicEnabled +
+                ", musicLvl=" + musicLvl +
+                ", strength=" + strength +
+                ", vitality=" + vitality +
+                ", defense=" + defense +
+                ", speed=" + speed +
+                ", luck=" + luck +
+                ", totalKills=" + totalKills +
+                ", totalDeaths=" + totalDeaths +
+                '}';
+    }
+
+
+    //    public Game(User player, Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+//        this.player = player;
+//        this.createdAt = createdAt;
+//        this.savedAt = savedAt;
+//        this.saveSlot = saveSlot;
+//        this.difficulty = difficulty;
+//        this.gameTimeInSeconds = gameTimeInSeconds;
+//        this.fullScreen = fullScreen;
+//        this.autoSave = autoSave;
+//        this.gammaLvl = gammaLvl;
+//        this.sfxEnabled = sfxEnabled;
+//        this.sfxLvl = sfxLvl;
+//        this.musicEnabled = musicEnabled;
+//        this.musicLvl = musicLvl;
+//        this.strength = strength;
+//        this.vitality = vitality;
+//        this.defense = defense;
+//        this.speed = speed;
+//        this.luck = luck;
+//        this.totalKills = totalKills;
+//        this.totalDeaths = totalDeaths;
+//    }
 }

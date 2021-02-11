@@ -53,7 +53,7 @@ public class User {
     private Date lastLoggedAt;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "games")
+    @JoinColumn(name = "id")
     private List<Game> games;
 
     public User(String username, String firstName, String lastName, String email, String password, Rol rol) {

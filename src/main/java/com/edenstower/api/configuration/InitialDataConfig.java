@@ -51,7 +51,7 @@ public class InitialDataConfig {
                         userRepository.findByUsername("client"),
                         new Date(),
                         new Date(),
-                        //Game.SaveSlot.One,
+                        Game.SaveSlot.One,
                         Game.Difficulty.Easy,
                         0,
                         true,

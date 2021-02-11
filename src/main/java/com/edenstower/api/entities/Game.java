@@ -2,12 +2,17 @@ package com.edenstower.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
@@ -16,7 +21,11 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Game {
+@TypeDef(
+        name = "json",
+        typeClass = JsonStringType.class
+)
+public class Game implements Serializable {
 
 //    public enum SaveSlot{
 //        One, Two, Three, Four
@@ -35,6 +44,10 @@ public class Game {
     @JoinColumn(name = "player", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User player;
+
+    @Type(type = "json")
+    @Column(name = "save_data", columnDefinition = "json")
+    private String saveData;
 
     // Global Info
     @Column(name = "created_at", nullable = false)
@@ -120,6 +133,29 @@ public class Game {
 
     public Game(User player, Date createdAt, Date savedAt, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
         this.player = player;
+        this.createdAt = createdAt;
+        this.savedAt = savedAt;
+        this.difficulty = difficulty;
+        this.gameTimeInSeconds = gameTimeInSeconds;
+        this.fullScreen = fullScreen;
+        this.autoSave = autoSave;
+        this.gammaLvl = gammaLvl;
+        this.sfxEnabled = sfxEnabled;
+        this.sfxLvl = sfxLvl;
+        this.musicEnabled = musicEnabled;
+        this.musicLvl = musicLvl;
+        this.strength = strength;
+        this.vitality = vitality;
+        this.defense = defense;
+        this.speed = speed;
+        this.luck = luck;
+        this.totalKills = totalKills;
+        this.totalDeaths = totalDeaths;
+    }
+
+    public Game(User player, String saveData, Date createdAt, Date savedAt, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+        this.player = player;
+        this.saveData = saveData;
         this.createdAt = createdAt;
         this.savedAt = savedAt;
         this.difficulty = difficulty;

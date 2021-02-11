@@ -49,6 +49,7 @@ public class InitialDataConfig {
             if(gameRepository.findById(1).isEmpty()){
                 game = new Game(
                         userRepository.findByUsername("client"),
+                        "{\"username\" : \"client\"}",
                         new Date(),
                         new Date(),
                         //Game.SaveSlot.One,

@@ -1,7 +1,6 @@
 package com.edenstower.api.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,8 +30,10 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "player", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User player;
 
     // Global Info
@@ -137,32 +138,6 @@ public class Game {
         this.luck = luck;
         this.totalKills = totalKills;
         this.totalDeaths = totalDeaths;
-    }
-
-    @Override
-    public String toString() {
-        return "Game{" +
-                "id=" + id +
-                ", player=" + player.getUsername() +
-                ", createdAt=" + createdAt +
-                ", savedAt=" + savedAt +
-                ", difficulty=" + difficulty +
-                ", gameTimeInSeconds=" + gameTimeInSeconds +
-                ", fullScreen=" + fullScreen +
-                ", autoSave=" + autoSave +
-                ", gammaLvl=" + gammaLvl +
-                ", sfxEnabled=" + sfxEnabled +
-                ", sfxLvl=" + sfxLvl +
-                ", musicEnabled=" + musicEnabled +
-                ", musicLvl=" + musicLvl +
-                ", strength=" + strength +
-                ", vitality=" + vitality +
-                ", defense=" + defense +
-                ", speed=" + speed +
-                ", luck=" + luck +
-                ", totalKills=" + totalKills +
-                ", totalDeaths=" + totalDeaths +
-                '}';
     }
 
 

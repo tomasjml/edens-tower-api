@@ -1,5 +1,6 @@
 package com.edenstower.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -54,6 +55,7 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
+    @JsonIgnore
     private List<Game> games;
 
     public User(String username, String firstName, String lastName, String email, String password, Rol rol) {

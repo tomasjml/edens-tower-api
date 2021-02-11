@@ -41,15 +41,16 @@ public class GameController {
                                    @RequestParam int musicLvl, @RequestParam int strength,
                                    @RequestParam int vitality, @RequestParam int defense,
                                    @RequestParam int speed, @RequestParam int luck,
-                                   @RequestParam long totalKills, @RequestParam long totalDeaths, @RequestParam long gameTimeInSeconds){
+                                   @RequestParam long totalKills, @RequestParam long totalDeaths,
+                                   @RequestParam long gameTimeInSeconds, @RequestParam String saveData){
 
         User user = userRepository.findByUsername(username);
-
         if(user != null){
             int cantSaves = user.getGames().size();
             if(cantSaves < 4){
                 Game game = new Game(
                         user,
+                        saveData,
                         new Date(),
                         new Date(),
                         cantSaves == 1? Game.SaveSlot.One: cantSaves == 2? Game.SaveSlot.Two: cantSaves == 3? Game.SaveSlot.Three: Game.SaveSlot.Four,
@@ -70,7 +71,7 @@ public class GameController {
                         totalKills,totalDeaths
                 );
                 gameRepository.save(game);
-                user.getGames().add(game);
+                //user.getGames().add(game);
                 return  ResponseEntity.ok().body(game);
             }
         }

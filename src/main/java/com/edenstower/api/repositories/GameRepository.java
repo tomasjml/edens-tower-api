@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface GameRepository extends JpaRepository<Game, Integer> {
 
     Game findByPlayerUsernameAndSaveSlot(String username, Game.SaveSlot slot);
+    boolean existsGameByPlayerUsernameAndSaveSlot(String username, Game.SaveSlot slot);
 
 }

@@ -1,5 +1,6 @@
 package com.edenstower.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
@@ -42,6 +43,7 @@ public class Game implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "player", nullable = false)
+    @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User player;
 
@@ -131,10 +133,11 @@ public class Game implements Serializable {
     @NotNull
     private long totalDeaths;
 
-    public Game(User player, Date createdAt, Date savedAt, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+    public Game(User player, Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
         this.player = player;
         this.createdAt = createdAt;
         this.savedAt = savedAt;
+        this.saveSlot = saveSlot;
         this.difficulty = difficulty;
         this.gameTimeInSeconds = gameTimeInSeconds;
         this.fullScreen = fullScreen;
@@ -153,34 +156,9 @@ public class Game implements Serializable {
         this.totalDeaths = totalDeaths;
     }
 
-    public Game(User player, String saveData, Date createdAt, Date savedAt, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+    public Game(User player, String saveData,Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
         this.player = player;
         this.saveData = saveData;
-        this.createdAt = createdAt;
-        this.savedAt = savedAt;
-        this.difficulty = difficulty;
-        this.gameTimeInSeconds = gameTimeInSeconds;
-        this.fullScreen = fullScreen;
-        this.autoSave = autoSave;
-        this.gammaLvl = gammaLvl;
-        this.sfxEnabled = sfxEnabled;
-        this.sfxLvl = sfxLvl;
-        this.musicEnabled = musicEnabled;
-        this.musicLvl = musicLvl;
-        this.strength = strength;
-        this.vitality = vitality;
-        this.defense = defense;
-        this.speed = speed;
-        this.luck = luck;
-        this.totalKills = totalKills;
-        this.totalDeaths = totalDeaths;
-    }
-
-
-
-
-        public Game(User player, Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
-        this.player = player;
         this.createdAt = createdAt;
         this.savedAt = savedAt;
         this.saveSlot = saveSlot;

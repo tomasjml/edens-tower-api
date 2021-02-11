@@ -27,9 +27,9 @@ import java.util.Date;
 )
 public class Game implements Serializable {
 
-//    public enum SaveSlot{
-//        One, Two, Three, Four
-//    }
+    public enum SaveSlot{
+        One, Two, Three, Four
+    }
 
     public enum Difficulty {
         Easy, Normal, Hard, Hell
@@ -56,10 +56,10 @@ public class Game implements Serializable {
     @Column(name = "saved_at", nullable = false)
     private Date savedAt;
 
-//    @Enumerated(EnumType.ORDINAL)
-//    @Column(name="save_slot", columnDefinition = "ENUM('One','Two','Three','Four')", nullable = false)
-//    @NotNull
-//    private SaveSlot saveSlot;
+    @Enumerated(EnumType.STRING)
+    @Column(name="save_slot", columnDefinition = "ENUM('One','Two','Three','Four')", nullable = false)
+    @NotNull
+    private SaveSlot saveSlot;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "difficulty", columnDefinition = "ENUM('Easy', 'Normal', 'Hard', 'Hell')", nullable = false)
@@ -177,26 +177,28 @@ public class Game implements Serializable {
     }
 
 
-    //    public Game(User player, Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
-//        this.player = player;
-//        this.createdAt = createdAt;
-//        this.savedAt = savedAt;
-//        this.saveSlot = saveSlot;
-//        this.difficulty = difficulty;
-//        this.gameTimeInSeconds = gameTimeInSeconds;
-//        this.fullScreen = fullScreen;
-//        this.autoSave = autoSave;
-//        this.gammaLvl = gammaLvl;
-//        this.sfxEnabled = sfxEnabled;
-//        this.sfxLvl = sfxLvl;
-//        this.musicEnabled = musicEnabled;
-//        this.musicLvl = musicLvl;
-//        this.strength = strength;
-//        this.vitality = vitality;
-//        this.defense = defense;
-//        this.speed = speed;
-//        this.luck = luck;
-//        this.totalKills = totalKills;
-//        this.totalDeaths = totalDeaths;
-//    }
+
+
+        public Game(User player, Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+        this.player = player;
+        this.createdAt = createdAt;
+        this.savedAt = savedAt;
+        this.saveSlot = saveSlot;
+        this.difficulty = difficulty;
+        this.gameTimeInSeconds = gameTimeInSeconds;
+        this.fullScreen = fullScreen;
+        this.autoSave = autoSave;
+        this.gammaLvl = gammaLvl;
+        this.sfxEnabled = sfxEnabled;
+        this.sfxLvl = sfxLvl;
+        this.musicEnabled = musicEnabled;
+        this.musicLvl = musicLvl;
+        this.strength = strength;
+        this.vitality = vitality;
+        this.defense = defense;
+        this.speed = speed;
+        this.luck = luck;
+        this.totalKills = totalKills;
+        this.totalDeaths = totalDeaths;
+    }
 }

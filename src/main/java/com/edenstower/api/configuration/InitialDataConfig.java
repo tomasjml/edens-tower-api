@@ -1,6 +1,7 @@
 package com.edenstower.api.configuration;
 
 import com.edenstower.api.entities.Game;
+import com.edenstower.api.entities.GameID;
 import com.edenstower.api.entities.User;
 import com.edenstower.api.repositories.GameRepository;
 import com.edenstower.api.repositories.UserRepository;
@@ -46,8 +47,9 @@ public class InitialDataConfig {
                 );
                 userService.addUser(user);
             }
-            if(gameRepository.findById(1).isEmpty()){
+            if(gameRepository.findById(new GameID("client", Game.SaveSlot.One)).isEmpty()){
                 game = new Game(
+                        new GameID("client", Game.SaveSlot.One),
                         userRepository.findByUsername("client"),
                         "{\n" +
                                 "\t\"username\": \"client\",\n" +
@@ -59,7 +61,6 @@ public class InitialDataConfig {
                                 "}",
                         new Date(),
                         new Date(),
-                        Game.SaveSlot.One,
                         Game.Difficulty.Easy,
                         0,
                         true,

@@ -28,9 +28,13 @@ public class GameController {
 
     @GetMapping("/game")
     public ResponseEntity getGame(@RequestParam String username, @RequestParam String slot){
+
         Game.SaveSlot saveSlot = Game.SaveSlot.valueOf(slot);
+        Map<String, String> response = new HashMap<>();
         if(!gameRepository.existsById(new GameID(username, saveSlot))){
-            return ResponseEntity.notFound().build();
+            response.put("found", "false");
+            response.put("message", "Game not found");
+            return ResponseEntity.badRequest().body(response);
         }
         Optional<Game> game = gameRepository.findById(new GameID(username, saveSlot));
         return  ResponseEntity.ok().body(game);
@@ -43,32 +47,27 @@ public class GameController {
                                    @RequestParam int luck, @RequestParam long totalKills, @RequestParam long totalDeaths, @RequestParam long gameTimeInSeconds,
                                    @RequestParam String saveData, @RequestParam String saveSlotstr){
 
+        Map<String, String> response = new HashMap<>();
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            response.put("posted", "false");
+            response.put("message", "User " + username + " not found");
+            return ResponseEntity.badRequest().body(response);
+        }
         Game.SaveSlot saveSlot = Game.SaveSlot.valueOf(saveSlotstr);
         if(!gameRepository.existsById(new GameID(username, saveSlot))){
             int cantSaves = user.getGames().size();
             if(cantSaves < 4){
                 Game game = new Game(
                         new GameID(username, saveSlot),
-                        user,
-                        saveData,
-                        new Date(),
-                        new Date(),
+                        user, saveData,
+                        new Date(), new Date(),
                         Game.Difficulty.valueOf(difficulty),
-                        gameTimeInSeconds,
-                        fullScreen,
-                        autoSave,
-                        gammaLvl,
-                        sfxEnabled,
-                        sfxLvl,
-                        musicEnabled,
-                        musicLvl,
-                        strength,
-                        vitality,
-                        defense,
-                        speed,
-                        luck,
-                        totalKills,totalDeaths
+                        gameTimeInSeconds, fullScreen,
+                        autoSave, gammaLvl, sfxEnabled,
+                        sfxLvl, musicEnabled, musicLvl,
+                        strength, vitality, defense,
+                        speed, luck, totalKills,totalDeaths
                 );
                 gameRepository.save(game);
                 //user.getGames().add(game);
@@ -93,27 +92,15 @@ public class GameController {
         if(oldGame.isPresent()){
             User user = userRepository.findByUsername(username);
             Game newGame = new Game(
-                    gameID,
-                    user,
-                    saveData,
+                    gameID, user, saveData,
                     oldGame.get().getCreatedAt(),
                     new Date(),
                     Game.Difficulty.valueOf(difficulty),
-                    gameTimeInSeconds,
-                    fullScreen,
-                    autoSave,
-                    gammaLvl,
-                    sfxEnabled,
-                    sfxLvl,
-                    musicEnabled,
-                    musicLvl,
-                    strength,
-                    vitality,
-                    defense,
-                    speed,
-                    luck,
-                    totalKills,
-                    totalDeaths
+                    gameTimeInSeconds, fullScreen, autoSave,
+                    gammaLvl, sfxEnabled, sfxLvl,
+                    musicEnabled, musicLvl, strength,
+                    vitality, defense, speed, luck,
+                    totalKills, totalDeaths
             );
             gameRepository.save(newGame);
             return  ResponseEntity.ok().body(newGame);

@@ -3,7 +3,6 @@ package com.edenstower.api.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,11 +15,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+
 @Data
 @Entity
 @Table(name = "games")
 @EntityListeners(AuditingEntityListener.class)
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @TypeDef(
         name = "json",
@@ -36,16 +36,25 @@ public class Game implements Serializable {
         Easy, Normal, Hard, Hell
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @EmbeddedId
+    private GameID gameID;
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Integer id;
 
+    @MapsId("playerUserName")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "player", nullable = false)
     @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User player;
+
+//    @Enumerated(EnumType.STRING)
+//    @Column(name="save_slot", columnDefinition = "ENUM('One','Two','Three','Four')", nullable = false)
+//    @NotNull
+//    @Id
+//    private SaveSlot saveSlot;
 
     @Type(type = "json")
     @Column(name = "save_data", columnDefinition = "json")
@@ -57,11 +66,6 @@ public class Game implements Serializable {
 
     @Column(name = "saved_at", nullable = false)
     private Date savedAt;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name="save_slot", columnDefinition = "ENUM('One','Two','Three','Four')", nullable = false)
-    @NotNull
-    private SaveSlot saveSlot;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "difficulty", columnDefinition = "ENUM('Easy', 'Normal', 'Hard', 'Hell')", nullable = false)
@@ -133,35 +137,60 @@ public class Game implements Serializable {
     @NotNull
     private long totalDeaths;
 
-    public Game(User player, Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
-        this.player = player;
-        this.createdAt = createdAt;
-        this.savedAt = savedAt;
-        this.saveSlot = saveSlot;
-        this.difficulty = difficulty;
-        this.gameTimeInSeconds = gameTimeInSeconds;
-        this.fullScreen = fullScreen;
-        this.autoSave = autoSave;
-        this.gammaLvl = gammaLvl;
-        this.sfxEnabled = sfxEnabled;
-        this.sfxLvl = sfxLvl;
-        this.musicEnabled = musicEnabled;
-        this.musicLvl = musicLvl;
-        this.strength = strength;
-        this.vitality = vitality;
-        this.defense = defense;
-        this.speed = speed;
-        this.luck = luck;
-        this.totalKills = totalKills;
-        this.totalDeaths = totalDeaths;
-    }
+//    public Game(User player, Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+//        this.player = player;
+//        this.createdAt = createdAt;
+//        this.savedAt = savedAt;
+//        this.saveSlot = saveSlot;
+//        this.difficulty = difficulty;
+//        this.gameTimeInSeconds = gameTimeInSeconds;
+//        this.fullScreen = fullScreen;
+//        this.autoSave = autoSave;
+//        this.gammaLvl = gammaLvl;
+//        this.sfxEnabled = sfxEnabled;
+//        this.sfxLvl = sfxLvl;
+//        this.musicEnabled = musicEnabled;
+//        this.musicLvl = musicLvl;
+//        this.strength = strength;
+//        this.vitality = vitality;
+//        this.defense = defense;
+//        this.speed = speed;
+//        this.luck = luck;
+//        this.totalKills = totalKills;
+//        this.totalDeaths = totalDeaths;
+//    }
 
-    public Game(User player, String saveData,Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+//    public Game(User player, String saveData,Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+//        this.player = player;
+//        this.saveData = saveData;
+//        this.createdAt = createdAt;
+//        this.savedAt = savedAt;
+//        this.saveSlot = saveSlot;
+//        this.difficulty = difficulty;
+//        this.gameTimeInSeconds = gameTimeInSeconds;
+//        this.fullScreen = fullScreen;
+//        this.autoSave = autoSave;
+//        this.gammaLvl = gammaLvl;
+//        this.sfxEnabled = sfxEnabled;
+//        this.sfxLvl = sfxLvl;
+//        this.musicEnabled = musicEnabled;
+//        this.musicLvl = musicLvl;
+//        this.strength = strength;
+//        this.vitality = vitality;
+//        this.defense = defense;
+//        this.speed = speed;
+//        this.luck = luck;
+//        this.totalKills = totalKills;
+//        this.totalDeaths = totalDeaths;
+//    }
+
+
+    public Game(GameID gameID,User player, String saveData, Date createdAt, Date savedAt, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+        this.gameID = gameID;
         this.player = player;
         this.saveData = saveData;
         this.createdAt = createdAt;
         this.savedAt = savedAt;
-        this.saveSlot = saveSlot;
         this.difficulty = difficulty;
         this.gameTimeInSeconds = gameTimeInSeconds;
         this.fullScreen = fullScreen;

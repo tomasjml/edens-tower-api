@@ -16,3 +16,6 @@ Run everything as admin in console.
 
 # For new version of edens-tower-api
 1. ```docker tag edens-tower-api:1.0 jtmlmass/edens-tower-api:1.0```
+
+# Docker sheet Cheat reference
+- [Docker Cheat Sheet](https://www.docker.com/sites/default/files/d8/2019-09/docker-cheat-sheet.pdf)

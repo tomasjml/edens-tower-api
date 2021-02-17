@@ -1,14 +1,15 @@
 package com.edenstower.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -52,6 +53,11 @@ public class User {
     @Column(name = "last_logged_at")
     private Date lastLoggedAt;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    @JsonIgnore
+    private List<Game> games;
+
     public User(String username, String firstName, String lastName, String email, String password, Rol rol) {
         this.username = username;
         this.firstName = firstName;
@@ -59,5 +65,16 @@ public class User {
         this.email = email;
         this.password = password;
         this.rol = rol;
+    }
+
+    public User(String username, String firstName, String lastName, String email, Date createdAt, String password, Rol rol, Date lastLoggedAt) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.createdAt = createdAt;
+        this.password = password;
+        this.rol = rol;
+        this.lastLoggedAt = lastLoggedAt;
     }
 }

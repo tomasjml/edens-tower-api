@@ -3,6 +3,7 @@ package com.edenstower.api.controllers;
 import com.edenstower.api.entities.User;
 import com.edenstower.api.repositories.UserRepository;
 import com.edenstower.api.services.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +25,20 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/")
+    @ApiOperation(value = "Method to get all the users")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @GetMapping("/user")
+    @ApiOperation(value = "Method to get a user given the username")
     public ResponseEntity<User> getUser(@RequestParam String username) {
         Optional<User> user = userRepository.findById(username);
         return user.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/user")
+    @ApiOperation(value = "Method to Upload a user or update it if exists")
     public User postUser(@RequestParam String username, @RequestParam String firstName,
                          @RequestParam String lastName, @RequestParam String email,
                          @RequestParam String password, @RequestParam String rol) {
@@ -66,6 +70,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user")
+    @ApiOperation(value = "Method to delete a user given the username")
     public Map<String, String> deleteUser(@RequestParam String username) {
         Map<String, String> response = new HashMap<>();
         if (!userRepository.existsByUsername(username)) {

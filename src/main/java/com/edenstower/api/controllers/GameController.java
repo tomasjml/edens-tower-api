@@ -29,7 +29,7 @@ public class GameController {
     public List<Game> getAllGames(){return gameRepository.findAll();}
 
     @GetMapping("/game")
-    @ApiOperation(value = "Method to get a game based on the GameID(Username,Slot)")
+    @ApiOperation(value = "Method to GET a game based on the GameID(Username,Slot)")
     public ResponseEntity getGame(@RequestParam String username, @RequestParam String slot){
 
         Game.SaveSlot saveSlot = Game.SaveSlot.valueOf(slot);
@@ -41,6 +41,19 @@ public class GameController {
         }
         Optional<Game> game = gameRepository.findById(new GameID(username, saveSlot));
         return  ResponseEntity.ok().body(game);
+    }
+
+    @GetMapping("/username")
+    @ApiOperation(value = "Method to GET all Games based on the GameID(Username)")
+    public ResponseEntity getGameByUsername(@RequestParam String username){
+        Map<String, String> response = new HashMap<>();
+        if(!gameRepository.existsGameByGameIDPlayerUserName(username)){
+            response.put("found", "false");
+            response.put("message", "Game not found by Username: " + username);
+            return ResponseEntity.badRequest().body(response);
+        }
+        List<Game> games = gameRepository.findGamesByGameIDPlayerUserName(username);
+        return  ResponseEntity.ok().body(games);
     }
 
     @PostMapping("/game")

@@ -11,7 +11,7 @@ Run everything as admin in console.
 2. ```docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=ml272718 -e MYSQL_DATABASE=edens_tower_api -e MYSQL_USER=edadmin -e MYSQL_PASSWORD=ml272718 -d mariadb:latest```
 
 # Commands for edens-tower-api
-0. ```docker build -t jtmlmass/edens-tower-api:tag```
+0. ```docker build -t jtmlmass/edens-tower-api:tag .```
 1. ```docker push jtmlmass/edens-tower-api:tag```
 2. ```docker pull jtmlmass/edens-tower-api:tag```
 3. ```>docker run -p 8086:8086 --name edens-tower-api --link mysql-standalone -d jtmlmass/edens-tower-api:tag```

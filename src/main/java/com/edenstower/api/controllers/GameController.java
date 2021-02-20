@@ -6,6 +6,7 @@ import com.edenstower.api.entities.User;
 import com.edenstower.api.repositories.GameRepository;
 import com.edenstower.api.repositories.UserRepository;
 import com.edenstower.api.services.GameService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,11 @@ public class GameController {
     private UserRepository userRepository;
 
     @GetMapping("/")
+    @ApiOperation(value = "Method to get all the games")
     public List<Game> getAllGames(){return gameRepository.findAll();}
 
     @GetMapping("/game")
+    @ApiOperation(value = "Method to get a game based on the GameID(Username,Slot)")
     public ResponseEntity getGame(@RequestParam String username, @RequestParam String slot){
 
         Game.SaveSlot saveSlot = Game.SaveSlot.valueOf(slot);
@@ -41,6 +44,7 @@ public class GameController {
     }
 
     @PostMapping("/game")
+    @ApiOperation(value = "Method to save a game with all the required parameters")
     public ResponseEntity postGame(@RequestParam String username, @RequestParam String difficulty, @RequestParam boolean fullScreen, @RequestParam boolean autoSave,
                                    @RequestParam int gammaLvl, @RequestParam boolean sfxEnabled, @RequestParam int sfxLvl, @RequestParam boolean musicEnabled,
                                    @RequestParam int musicLvl, @RequestParam int strength, @RequestParam int vitality, @RequestParam int defense, @RequestParam int speed,
@@ -79,6 +83,7 @@ public class GameController {
     }
 
     @PutMapping("/game")
+    @ApiOperation(value = "Method to update the values of an existing game")
     public ResponseEntity updateGame(@RequestParam String username, @RequestParam String difficulty, @RequestParam boolean fullScreen, @RequestParam boolean autoSave,
                                      @RequestParam int gammaLvl, @RequestParam boolean sfxEnabled, @RequestParam int sfxLvl, @RequestParam boolean musicEnabled,
                                      @RequestParam int musicLvl, @RequestParam int strength, @RequestParam int vitality, @RequestParam int defense, @RequestParam int speed,
@@ -110,6 +115,7 @@ public class GameController {
     }
 
     @DeleteMapping("/game")
+    @ApiOperation(value = "Method to delete a game given the GameID(Username,Slot)")
     public Map<String, String> deleteGame(@RequestParam String username, @RequestParam String saveSlotstr){
         Game.SaveSlot saveSlot = Game.SaveSlot.valueOf(saveSlotstr);
         Map<String, String> response = new HashMap<>();

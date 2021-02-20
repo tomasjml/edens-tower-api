@@ -18,3 +18,6 @@ logging.level.org.hibernate.SQL=DEBUG
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
 
 spring.jackson.time-zone=GMT-4
+
+# Server port
+server.port=8086

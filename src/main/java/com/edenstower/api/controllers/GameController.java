@@ -72,11 +72,14 @@ public class GameController {
             return ResponseEntity.badRequest().body(response);
         }
         Game.SaveSlot saveSlot = Game.SaveSlot.valueOf(saveSlotstr);
-        if(!gameRepository.existsById(new GameID(username, saveSlot))){
+        GameID gameID = new GameID(username, saveSlot);
+        Optional<Game> oldGame = gameRepository.findById(gameID);
+
+        if(oldGame.isEmpty()){
             int cantSaves = user.getGames().size();
             if(cantSaves < 4){
                 Game game = new Game(
-                        new GameID(username, saveSlot),
+                        gameID,
                         user, saveData,
                         new Date(), new Date(),
                         Game.Difficulty.valueOf(difficulty),
@@ -90,25 +93,7 @@ public class GameController {
                 //user.getGames().add(game);
                 return  ResponseEntity.ok().body(game);
             }
-        }
-        return ResponseEntity.notFound().build();
-
-    }
-
-    @PutMapping("/game")
-    @ApiOperation(value = "Method to update the values of an existing game")
-    public ResponseEntity updateGame(@RequestParam String username, @RequestParam String difficulty, @RequestParam boolean fullScreen, @RequestParam boolean autoSave,
-                                     @RequestParam int gammaLvl, @RequestParam boolean sfxEnabled, @RequestParam int sfxLvl, @RequestParam boolean musicEnabled,
-                                     @RequestParam int musicLvl, @RequestParam int strength, @RequestParam int vitality, @RequestParam int defense, @RequestParam int speed,
-                                     @RequestParam int luck, @RequestParam long totalKills, @RequestParam long totalDeaths, @RequestParam long gameTimeInSeconds,
-                                     @RequestParam String saveData, @RequestParam String saveSlotstr){
-
-        Game.SaveSlot saveSlot = Game.SaveSlot.valueOf(saveSlotstr);
-        GameID gameID = new GameID(username, saveSlot);
-        Optional<Game> oldGame = gameRepository.findById(gameID);
-
-        if(oldGame.isPresent()){
-            User user = userRepository.findByUsername(username);
+        }else{
             Game newGame = new Game(
                     gameID, user, saveData,
                     oldGame.get().getCreatedAt(),
@@ -126,6 +111,38 @@ public class GameController {
         return ResponseEntity.notFound().build();
 
     }
+
+//    @PutMapping("/game")
+//    @ApiOperation(value = "Method to update the values of an existing game")
+//    public ResponseEntity updateGame(@RequestParam String username, @RequestParam String difficulty, @RequestParam boolean fullScreen, @RequestParam boolean autoSave,
+//                                     @RequestParam int gammaLvl, @RequestParam boolean sfxEnabled, @RequestParam int sfxLvl, @RequestParam boolean musicEnabled,
+//                                     @RequestParam int musicLvl, @RequestParam int strength, @RequestParam int vitality, @RequestParam int defense, @RequestParam int speed,
+//                                     @RequestParam int luck, @RequestParam long totalKills, @RequestParam long totalDeaths, @RequestParam long gameTimeInSeconds,
+//                                     @RequestParam String saveData, @RequestParam String saveSlotstr){
+//
+//        Game.SaveSlot saveSlot = Game.SaveSlot.valueOf(saveSlotstr);
+//        GameID gameID = new GameID(username, saveSlot);
+//        Optional<Game> oldGame = gameRepository.findById(gameID);
+//
+//        if(oldGame.isPresent()){
+//            User user = userRepository.findByUsername(username);
+//            Game newGame = new Game(
+//                    gameID, user, saveData,
+//                    oldGame.get().getCreatedAt(),
+//                    new Date(),
+//                    Game.Difficulty.valueOf(difficulty),
+//                    gameTimeInSeconds, fullScreen, autoSave,
+//                    gammaLvl, sfxEnabled, sfxLvl,
+//                    musicEnabled, musicLvl, strength,
+//                    vitality, defense, speed, luck,
+//                    totalKills, totalDeaths
+//            );
+//            gameRepository.save(newGame);
+//            return  ResponseEntity.ok().body(newGame);
+//        }
+//        return ResponseEntity.notFound().build();
+//
+//    }
 
     @DeleteMapping("/game")
     @ApiOperation(value = "Method to delete a game given the GameID(Username,Slot)")

@@ -88,9 +88,9 @@ public class UserController {
 
     @GetMapping("/highScore")
     @ApiOperation(value = "Method to GET the highscore of all Players")
-    public Map<String, Long> getHighScore(){
-        Map<String, Long> response = new HashMap<>();
+    public List<Map<String, String>> getHighScore(){
 
+        List<Map<String, String>> responses = new ArrayList<>();
         List<User> users = userRepository.findAll();
         List<Game> games;
         long highscore;
@@ -104,10 +104,13 @@ public class UserController {
                         highscore = game.getHighScore();
                     }
                 }
-                response.put(user.getUsername(), highscore);
+                Map<String, String> response = new HashMap<>();
+                response.put("User", user.getUsername());
+                response.put("Highscore", Long.toString(highscore));
+                responses.add(response);
             }
         }
-        return response;
+        return responses;
     }
 
 }

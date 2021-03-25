@@ -14,7 +14,7 @@ Run everything as admin in console.
 0. ```docker build -t jtmlmass/edens-tower-api:tag .```
 1. ```docker push jtmlmass/edens-tower-api:tag```
 2. ```docker pull jtmlmass/edens-tower-api:tag```
-3. ```>docker run -p 8086:8086 --name edens-tower-api --link mysql-standalone -d jtmlmass/edens-tower-api:tag```
+3. ```>docker run -p 8086:8086 --name edens-tower-api-tag --link mysql-standalone -d jtmlmass/edens-tower-api:tag```
 
 # For new version of edens-tower-api
 1. ```docker tag edens-tower-api:1.0 jtmlmass/edens-tower-api:1.0```

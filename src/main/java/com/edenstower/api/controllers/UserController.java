@@ -1,6 +1,8 @@
 package com.edenstower.api.controllers;
 
+import com.edenstower.api.entities.Game;
 import com.edenstower.api.entities.User;
+import com.edenstower.api.repositories.GameRepository;
 import com.edenstower.api.repositories.UserRepository;
 import com.edenstower.api.services.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -10,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/users")
@@ -23,6 +22,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private GameRepository gameRepository;
 
     @GetMapping("/")
     @ApiOperation(value = "Method to get all the users")
@@ -83,6 +84,33 @@ public class UserController {
             response.put("message", "User " + username  + " has been deleted");
         }
         return response;
+    }
+
+    @GetMapping("/highScore")
+    @ApiOperation(value = "Method to GET the highscore of all Players")
+    public List<Map<String, String>> getHighScore(){
+
+        List<Map<String, String>> responses = new ArrayList<>();
+        List<User> users = userRepository.findAll();
+        List<Game> games;
+        long highscore;
+
+        for(User user: users){
+            if(gameRepository.existsGameByGameIDPlayerUserName(user.getUsername())) {
+                games = gameRepository.findGamesByGameIDPlayerUserName(user.getUsername());
+                highscore = games.get(0).getHighScore();
+                for (Game game : games) {
+                    if (game.getHighScore() > highscore) {
+                        highscore = game.getHighScore();
+                    }
+                }
+                Map<String, String> response = new HashMap<>();
+                response.put("User", user.getUsername());
+                response.put("Highscore", Long.toString(highscore));
+                responses.add(response);
+            }
+        }
+        return responses;
     }
 
 }

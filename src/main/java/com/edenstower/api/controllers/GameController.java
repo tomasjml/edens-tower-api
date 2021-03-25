@@ -62,7 +62,7 @@ public class GameController {
                                    @RequestParam int gammaLvl, @RequestParam boolean sfxEnabled, @RequestParam int sfxLvl, @RequestParam boolean musicEnabled,
                                    @RequestParam int musicLvl, @RequestParam int strength, @RequestParam int vitality, @RequestParam int defense, @RequestParam int speed,
                                    @RequestParam int luck, @RequestParam long totalKills, @RequestParam long totalDeaths, @RequestParam long gameTimeInSeconds,
-                                   @RequestParam String saveData, @RequestParam String saveSlotstr){
+                                   @RequestParam String saveData, @RequestParam String saveSlotstr, @RequestParam Optional<Long> highScore){
 
         Map<String, String> response = new HashMap<>();
         User user = userRepository.findByUsername(username);
@@ -87,7 +87,7 @@ public class GameController {
                         autoSave, gammaLvl, sfxEnabled,
                         sfxLvl, musicEnabled, musicLvl,
                         strength, vitality, defense,
-                        speed, luck, totalKills,totalDeaths
+                        speed, luck, totalKills,totalDeaths, highScore.orElse((long)0)
                 );
                 gameRepository.save(game);
                 //user.getGames().add(game);
@@ -103,7 +103,7 @@ public class GameController {
                     gammaLvl, sfxEnabled, sfxLvl,
                     musicEnabled, musicLvl, strength,
                     vitality, defense, speed, luck,
-                    totalKills, totalDeaths
+                    totalKills, totalDeaths, highScore.orElse((long)0)
             );
             gameRepository.save(newGame);
             return  ResponseEntity.ok().body(newGame);

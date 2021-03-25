@@ -139,6 +139,9 @@ public class Game implements Serializable {
     @NotNull
     private long totalDeaths;
 
+    @Column(name = "highscore", columnDefinition = "integer default 0")
+    private long highScore;
+
 //    public Game(User player, Date createdAt, Date savedAt, SaveSlot saveSlot, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
 //        this.player = player;
 //        this.createdAt = createdAt;
@@ -187,7 +190,10 @@ public class Game implements Serializable {
 //    }
 
 
-    public Game(GameID gameID,User player, String saveData, Date createdAt, Date savedAt, Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave, int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength, int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths) {
+    public Game(GameID gameID,User player, String saveData, Date createdAt, Date savedAt,
+                Difficulty difficulty, long gameTimeInSeconds, boolean fullScreen, boolean autoSave,
+                int gammaLvl, boolean sfxEnabled, int sfxLvl, boolean musicEnabled, int musicLvl, int strength,
+                int vitality, int defense, int speed, int luck, long totalKills, long totalDeaths, long highScore) {
         this.gameID = gameID;
         this.player = player;
         this.saveData = saveData;
@@ -209,5 +215,6 @@ public class Game implements Serializable {
         this.luck = luck;
         this.totalKills = totalKills;
         this.totalDeaths = totalDeaths;
+        this.highScore = highScore;
     }
 }

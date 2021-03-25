@@ -76,7 +76,8 @@ public class InitialDataConfig {
                         0,
                         0,
                         0,
-                        0
+                        0,
+                        60
                 );
                 gameService.addGame(game);
             }
